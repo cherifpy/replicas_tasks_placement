@@ -137,38 +137,3 @@ factor here.
 `arriving_time` follows an exponential distribution with mean `lambda_rate` (100s by
 default for the paper's 4 instances).
 
-## Fidelity note
-
-`generate_traces.py` faithfully reproduces bandwidth/computation_nodes/energy_consumption
-and the job format (verified by direct comparison against traces produced by the
-original notebook — identical values at the same seed, same order of random draws).
-
-The paper does not address a storage constraint: its model (Section 4.2) only reasons
-about utility + acceleration factor, with no notion of "a node too small for a
-dataset". `storage_capacity` is therefore set to a constant (`UNLIMITED_STORAGE_CAPACITY_MB
-= 10**9`, far above any generated dataset, max 40960 MB) rather than drawn
-randomly — this choice is deliberately simpler than a bounded draw would be, and
-avoids a pitfall already encountered while developing this artifact: a CONTINUOUS draw
-within the dataset-size bounds (`random.randint(1026, 40961)`) makes it near
-impossible for any one of a hundred nodes to land exactly on the capacity needed for the
-largest dataset (2 values out of ~40000 possible) — verified at runtime, this used to
-block jobs indefinitely. With unlimited capacity this risk no longer exists by
-construction.
-
-Likewise, the artifact does not model migration or preemption: this code (present in
-the full repository — migration/deletion/waiting for an occupant, compensating replica,
-NSGA search) has been removed from `heuristic_scheduler.py` and
-`master_node_with_heterogeneous_nodes.py`, and `migration_nsga.py` is not included —
-only the decision to add a replica (utility + acceleration, threshold `sigma`) is
-exercised, matching the scope of the paper's Heuristic approach.
-
-Verified at runtime: the paper's 4 instances complete 100% of their jobs.
-
-| instance | jobs finished | avg flow time (s) | volume (MB) | nb transfers |
-|---|---|---|---|---|
-| inst-10J-50N | 10/10 | 432.26 | 331 776 | 39 |
-| inst-20J-50N | 20/20 | 673.62 | 431 104 | 82 |
-| inst-20J-100N | 20/20 | 330.20 | 637 952 | 115 |
-| inst-50J-100N | 50/50 | 341.47 | 2 897 920 | 254 |
-
-(sigma=0.05, seed=42, `python3 run_heuristic.py traces/inst-XJ-YN --sigma 0.05`)
