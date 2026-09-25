@@ -39,8 +39,7 @@ Heuristic approach's logic (Section 4.2), and `migration_nsga.py` is not include
   `(50 jobs, 100 nodes)`. Cleaned-up, self-contained version of the original notebook
   from the full repository (`simulator/workloads/workloads-100-storage-contrainte/job_genetation.ipynb`).
 - `run_heuristic.py` — loads a generated trace and runs the Heuristic on it,
-  reports `avg flow time`, `amount of data transferred`, `nb transfers` (the metrics
-  from Fig. 2/4/5 and Table 3 of the paper).
+  reports `avg flow time`, `amount of data transferred`, `nb transfers`.
 
 **Simulation engine (copied from the full repository):**
 `job.py`, `compute_node.py`, `tracker.py`, `utils/searchAlgo.py`, `utils/classifier.py`,
@@ -92,7 +91,7 @@ python3 generate_traces.py
 
 # 2. Run the Heuristic on an instance, at a given sigma
 python3 run_heuristic.py traces/inst-20J-50N --sigma 0.05
-python3 run_heuristic.py traces/inst-20J-50N --sigma 0.20   # more selective, cf. Fig. 6 of the paper
+python3 run_heuristic.py traces/inst-20J-50N --sigma 0.20   # more selective
 ```
 
 ## Format of the generated traces
