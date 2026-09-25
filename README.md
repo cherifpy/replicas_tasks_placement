@@ -95,20 +95,6 @@ python3 run_heuristic.py traces/inst-20J-50N --sigma 0.05
 python3 run_heuristic.py traces/inst-20J-50N --sigma 0.20   # more selective, cf. Fig. 6 of the paper
 ```
 
-`run_heuristic.py` output (example, `inst-20J-50N`, sigma=0.05, seed=42):
-
-```
-            instance: inst-20J-50N
-               sigma: 0.05
-    nb_jobs_finished: 20
-     avg_flow_time_s: 673.62
-   amount_of_data_MB: 431104
-        nb_transfers: 82
-```
-
-As `sigma` increases, the number of transfers and the data volume decrease (stricter
-criterion, less replication) — same trend as Fig. 6b/6c of the paper.
-
 ## Format of the generated traces
 
 `traces/inst-{J}J-{N}N/infrastructure.csv` — one line per node:
